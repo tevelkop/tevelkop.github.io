@@ -1,43 +1,48 @@
 import random
-
-
 game_continue=True
 red_points=[]
 blue_points=[]
-index_of_cards=""
+represent_closed_card_shown_to_user=""
+
 class simulate_plate:
         def __init__(self,plate):
-             global metadata_indexes
+    
+             global index_closed_card_content
              self.plate=plate
-             metadata_indexes=[int(index) for index,_ in enumerate(self.plate)]
-             for value_index,_ in enumerate(metadata_indexes):
-                if self.plate[value_index]=="_":
-                    metadata_indexes[value_index]="_"
-             index_of_cards=metadata_indexes
-             self.template=f"    {index_of_cards[0]} ,{index_of_cards[1]} ,{index_of_cards[2]} ,{index_of_cards[3]} \n\
-    {index_of_cards[4]} ,{index_of_cards[5]} ,{index_of_cards[6]} ,{index_of_cards[7]} \n\
-    {index_of_cards[8]} ,{index_of_cards[9]} ,{index_of_cards[10]} ,{index_of_cards[11]} \n\
-    {index_of_cards[12]} ,{index_of_cards[13]} ,{index_of_cards[14]} ,{index_of_cards[15]}\n "
+             index_closed_card_content=[int(index) for index,_ in enumerate(self.plate)]
+             for index_for_identifying_card,_ in enumerate(index_closed_card_content):
+                     
+                if self.plate[index_for_identifying_card]=="_":
+                     index_closed_card_content[index_for_identifying_card]="_"
+                        
+             represent_closed_card_shown_to_user = index_closed_card_content#closed_card_index_shown_to_user
+
+             self.show_template=f"    {represent_closed_card_shown_to_user[0]} ,{represent_closed_card_shown_to_user[1]} ,{represent_closed_card_shown_to_user[2]} ,{represent_closed_card_shown_to_user[3]} \n\
+    {represent_closed_card_shown_to_user[4]} ,{represent_closed_card_shown_to_user[5]} ,{represent_closed_card_shown_to_user[6]} ,{represent_closed_card_shown_to_user[7]} \n\
+    {represent_closed_card_shown_to_user[8]} ,{represent_closed_card_shown_to_user[9]} ,{represent_closed_card_shown_to_user[10]} ,{represent_closed_card_shown_to_user[11]} \n\
+    {represent_closed_card_shown_to_user[12]} ,{represent_closed_card_shown_to_user[13]} ,{represent_closed_card_shown_to_user[14]} ,{represent_closed_card_shown_to_user[15]}\n "
              
         def close(self):
-            print(self.template)
+            print(self.show_template)
             
         def open(self,option_1,option_2):
-            a = metadata_indexes
+            index_card_to_open = index_closed_card_content
             
-            a[option_1]=self.plate[option_1]
-            a[option_2]=self.plate[option_2]
-            print(f"    {a[0]} ,{a[1]} ,{a[2]} ,{a[3]} \n\
-    {a[4]} ,{a[5]} ,{a[6]} ,{a[7]} \n\
-    {a[8]} ,{a[9]} ,{a[10]} ,{a[11]} \n\
-    {a[12]} ,{a[13]} ,{a[14]} ,{a[15]}\n ")
+            index_card_to_open[option_1]=self.plate[option_1]
+            index_card_to_open[option_2]=self.plate[option_2]
+            print(f"    {index_card_to_open[0]} ,{index_card_to_open[1]} ,{index_card_to_open[2]} ,{index_card_to_open[3]} \n\
+    {index_card_to_open[4]} ,{index_card_to_open[5]} ,{index_card_to_open[6]} ,{index_card_to_open[7]} \n\
+    {index_card_to_open[8]} ,{index_card_to_open[9]} ,{index_card_to_open[10]} ,{index_card_to_open[11]} \n\
+    {index_card_to_open[12]} ,{index_card_to_open[13]} ,{index_card_to_open[14]} ,{index_card_to_open[15]}\n ")
 
-        def win(self):
-            if len([i for i in index_of_cards if i=="_"])==16:
+        def check_if_game_ended(self):
+            if len([i for i in represent_closed_card_shown_to_user if i=="_"])==16:
                 return True
             else:
                 return False
-        
+
+
+
 class cards_match_or_not:
         def __init__(self,option_1,option_2,metadata_plate):
             self.opt_1=option_1
@@ -83,7 +88,7 @@ while  game_continue==True:
     text="move to blue"
     print(f"\033[{34}m{text}\033[0m")
     Sim_plate=simulate_plate(metadata_plate)
-    game_finished=Sim_plate.win()
+    game_finished=Sim_plate.check_if_game_ended()
     if game_finished==True:
             game_continue=False
             break
@@ -100,7 +105,7 @@ while  game_continue==True:
     
     #===========================================================================
     while TorF==True and metadata_plate[card_1]!="_" and metadata_plate[card_2]!="_" and 0<=card_1<=15 and 0<=card_2<=15:
-        game_finished=Sim_plate.win()
+        game_finished=Sim_plate.check_if_game_ended()
         if game_finished==True:
             game_continue=False
             break
@@ -119,11 +124,12 @@ while  game_continue==True:
         Sim_plate.open(card_1,card_2)
         check=cards_match_or_not(card_1,card_2,metadata_plate)
         TorF=check.__str__()
+        
 #===========================================================================
     text="move to red"
     print(f"\033[{31}m{text}\033[0m")
     Sim_plate=simulate_plate(metadata_plate)
-    game_finished=Sim_plate.win()
+    game_finished=Sim_plate.check_if_game_ended()
     if game_finished==True:
             game_continue=False
             break
@@ -135,7 +141,7 @@ while  game_continue==True:
     Sim_plate.open(card_1,card_2)
     check=cards_match_or_not(card_1,card_2,metadata_plate)
     TorF=check.__str__()
-
+    
 #==================================================================   
     while TorF==True and metadata_plate[card_1]!="_" and metadata_plate[card_2]!="_" and 0<=card_1<=15 and 0<=card_2<=15:
         if game_finished==True:
@@ -156,6 +162,7 @@ while  game_continue==True:
 
         check=cards_match_or_not(card_1,card_2,metadata_plate)
         TorF=check.__str__()
+        
 print("game is finished!")
 print("who won?")
 print(f"\033[{34}m{f'blue: {blue_points}'}\033[0m")
